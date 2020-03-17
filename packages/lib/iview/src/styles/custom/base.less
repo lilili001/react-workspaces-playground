@@ -1,0 +1,373 @@
+//定义变量
+@primary-color: #1890FF;
+@info-color: #2db7f5;
+@success-color: #1FA269;
+@processing-color: @primary-color;
+@warning-color: #FAAD14;
+@error-color: #F5222D;
+@normal-color: #e6ebf1;
+
+@p-color-light-blue: #C0D0EB; //图片或文字的浅蓝色背景-预审页
+
+@color0: #000;
+@color3: #103153;
+@color6: #666;
+@color9: #999;
+@colorGrey:#B9BBBE;
+@color-default: #000000;
+@p-border-color: #e1e1e1;
+@bold-font-color: #103153;
+
+@body-bg-color: #EEEFF3;
+@basepx: 1px;
+
+//通用
+html,
+body,
+#app {
+  width: 100%;
+}
+
+body {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+h2,
+h3,
+h4 {
+  color: @bold-font-color;
+}
+
+body {
+  background: @body-bg-color !important;
+}
+
+ol, ul, li, dl, dt, dd {
+  list-style: none;
+}
+
+//行内元素有间距，给父元素加font0解决
+.font0 {
+  font-size: 0px;
+}
+.color999{color:#999}
+.clearfix:after {
+  display: table;
+  content: '';
+  clear: both;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.bg-white {
+  background: #fff;
+}
+
+.bg-primary {
+  background: @primary-color;
+}
+
+.color-primary {
+  color: @primary-color;
+}
+
+.color-success {
+  color: @success-color;
+}
+
+.color-error {
+  color: @error-color;
+}
+
+.color0 {
+  color: #000;
+}
+
+.color3 {
+  color: #333;
+}
+
+.color6 {
+  color: #666;
+}
+
+.color9 {
+  color: #999;
+}
+
+.font12 {
+  font-size: 12px;
+}
+
+.font14 {
+  font-size: 14px;
+}
+
+.font16 {
+  font-size: 16px;
+}
+
+.font18 {
+  font-size: 18px;
+}
+
+.border-radius-2 {
+  border-radius: 2px;
+}
+
+.line32 {
+  line-height: 32px;
+}
+
+//常用边距
+
+.gapping(@counter, @i: 0) when (@i <=@counter) {
+  .margin-@{i} {
+    margin: @i*@basepx;
+  }
+  .margin-0-@{i} {
+    margin: 0 @i*@basepx;
+  }
+  .margin-@{i}-0 {
+    margin: @i*@basepx 0;
+  }
+  .margin-t-@{i} {
+    margin-top: @i*@basepx;
+  }
+  .margin-b-@{i} {
+    margin-bottom: @i*@basepx;
+  }
+  .margin-l-@{i} {
+    margin-left: @i*@basepx;
+  }
+  .margin-r-@{i} {
+    margin-right: @i*@basepx;
+  }
+  .margin-lr-@{i} {
+    margin-left: @i*@basepx;
+    margin-right: @i*@basepx;
+  }
+  .margin-tb-@{i} {
+    margin-top: @i*@basepx;
+    margin-bottom: @i*@basepx;
+  }
+  .width-@{i}{
+    width:@i*@basepx;
+  }
+  .padding-@{i} {
+    padding: @i*@basepx;
+  }
+  .padding-0-@{i} {
+    padding: 0 @i*@basepx;
+  }
+  .padding-@{i}-0 {
+    padding: @i*@basepx 0;
+  }
+  .padding-t-@{i} {
+    padding-top: @i*@basepx;
+  }
+  .padding-b-@{i} {
+    padding-bottom: @i*@basepx;
+  }
+  .padding-l-@{i} {
+    padding-left: @i*@basepx;
+  }
+  .padding-r-@{i} {
+    padding-right: @i*@basepx;
+  }
+  .padding-lr-@{i} {
+    padding-left: @i*@basepx;
+    padding-right: @i*@basepx;
+  }
+  .padding-tb-@{i} {
+    padding-top: @i*@basepx;
+    padding-bottom: @i*@basepx;
+  }
+  .gapping(@counter, @i + 1); // next iteration
+}
+
+//todo loop gapping
+.gapping(30);
+.gapping(35);
+.gapping(40);
+.margin-t-14 {
+  margin-top: 14px;
+}
+
+.margin-b-14 {
+  margin-bottom: 14px;
+}
+.margin-b-16 {
+  margin-bottom: 16px;
+}
+.margin-l-14 {
+  margin-left: 14px;
+}
+
+.margin-r-14 {
+  margin-right: 14px;
+}
+
+.margin-14 {
+  margin: 14px;
+}
+
+.margin-tb-14 {
+  margin-top: 14px;
+  margin-bottom: 14px;
+}
+
+.margin-lr-14 {
+  margin-left: 14px;
+  margin-right: 14px;
+}
+
+.margin-t-24 {
+  margin-top: 24px;
+}
+
+.margin-b-24 {
+  margin-bottom: 24px;
+}
+
+.margin-l-24 {
+  margin-left: 24px;
+}
+
+.margin-r-24 {
+  margin-right: 24px;
+}
+
+.margin-24 {
+  margin: 24px;
+}
+
+.margin-tb-24 {
+  margin-top: 24px;
+  margin-bottom: 24px;
+}
+
+.margin-lr-24 {
+  margin-left: 24px;
+  margin-right: 24px;
+}
+
+.pull-left {
+  float: left;
+}
+
+.pull-right {
+  float: right;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.flex-box {
+  position: relative;
+  .flex-block();
+  .align-items(center);
+  .align-self(center);
+  .flex-wrap(nowrap);
+  -webkit-box-lines: single;
+  -moz-box-lines: single;
+}
+.flex-top {
+  position: relative;
+  .flex-block();
+  .align-items(flex-start);
+  .align-self(flex-start);
+  .flex-wrap(nowrap);
+  -webkit-box-lines: single;
+  -moz-box-lines: single;
+  .justify-content(flex-start);
+}
+.flex-center {
+  position: relative;
+  .flex-block();
+  .align-items(center);
+  .align-self(center);
+  .flex-wrap(nowrap);
+  -webkit-box-lines: single;
+  -moz-box-lines: single;
+  .justify-content(center);
+}
+
+.flex-right {
+  position: relative;
+  .flex-block();
+  .align-items(center);
+  .align-self(center);
+  .flex-wrap(nowrap);
+  -webkit-box-lines: single;
+  -moz-box-lines: single;
+  .justify-content(flex-end);
+}
+
+hr {
+  margin: 30px 0px;
+  border: none;
+  border-top: 1px solid #e1e1e1;
+}
+
+.half-gutter-width {
+  width: -webkit-calc(~'50% - 5px');
+  width: calc(~'50% - 5px');
+}
+
+/*动画*/
+.animated {
+  .animation-duration(.3s);
+  .animation-fill-mode(both);
+}
+
+@keyframes slideInRight {
+  0% {
+    transform: translate3d(100%, 0, 0);
+    visibility: visible
+  }
+
+  to {
+    transform: translateZ(0)
+  }
+}
+
+.slideInRight {
+  animation-name: slideInRight
+}
+
+@keyframes slideInLeft {
+  0% {
+    transform: translate3d(-100%, 0, 0);
+    visibility: visible
+  }
+
+  to {
+    transform: translateZ(0)
+  }
+}
+
+.slideInLeft {
+  animation-name: slideInLeft
+}
+
+@keyframes circleRoate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

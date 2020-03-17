@@ -27,7 +27,7 @@ class App extends Component {
 							className="App-link"
 							href="https://github.com/react-workspaces/cra-workspaces-playground"
 							target="_blank"
-							rel="noopener noreferrer"
+							rel="noopener noreferrer aa"
 						>
 							<strong>React</strong> Workspaces
 						</a>

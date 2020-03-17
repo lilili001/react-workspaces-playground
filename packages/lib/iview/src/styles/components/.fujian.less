@@ -1,0 +1,203 @@
+.fujian{
+  align-items: flex-start !important;
+  .item{margin-right:20px;margin-bottom:20px}
+  .item:last-child{margin-right:0}
+  .item{
+    // display: flex;
+    width:110px;
+    // height:110px;
+    flex-direction: column ;
+    // background:#f8f8f8;
+    // border:1px dashed #e1e1e1;
+    border-radius:4px;
+    box-sizing: border-box;
+    position: relative;
+    cursor: pointer;
+    .title{background:rgba(16,49,83,0.30); height: 20px;line-height: 20px; color:#fff; border-radius:4px 4px 0 0; position:absolute;width:100%;z-index: 9}
+    .bottom-title{
+      font-size:12px; line-height: 1; color:#666666 !important; 
+      border-radius:4px 4px 0 0;
+      width:108px;
+      z-index: 9;
+      margin-top: 10px;
+      word-break:break-all;
+      cursor: default;
+      &.zhehang{text-align: left;padding-left:4px;line-height: 14px}
+    }
+    &.single{
+      .box{
+        background:#f8f8f8;
+      }
+    }
+    &.multiple{
+      min-width:110px;
+      width:auto;
+      // .title{background:#8999AA; color:#fff;z-index: 9}
+      .bottom-title{color:#333;z-index: 9}
+      .file{margin-right:2px;
+        background: #f8f8f8;
+        &:last-child{margin-right:0}
+      }
+      .box{
+        &.bg_f8{
+          background: #f8f8f8;
+        }
+        .uploadzone{
+          width: 106px;
+          margin-right: 2px;
+        }
+      }
+    }
+    .box{
+      flex:1; display: flex; justify-content: left;flex-flow: row wrap;
+      min-height:110px;
+      background:#fff;
+      border: 1px dashed #e1e1e1;
+      border-radius: 4px;
+      position: relative;
+      box-sizing: border-box;
+      overflow: hidden;
+      &.active{
+        border: 1px solid #1890FF;
+        border-radius: 6px;
+      }
+      .uploadInputBtn{
+        width:100%;
+        height:100%;
+        background:rgba(0,0,0,0);
+        outline:none;
+        border:0px;
+        font-size:0;
+        filter: alpha(opacity=0);
+        opacity:0;
+        position:absolute;
+        top: 0;
+        left: 0;
+        z-index: 1;
+        cursor: pointer !important;
+      }
+      .uploadzone{
+        position:relative;
+        width:108px;
+        padding-top: 18px;
+        flex-direction: column;
+        align-items: center;
+        display: flex;
+        justify-content: center;
+        color:#adadad !important;
+        background: #f8f8f8;
+        &.hideSubCategoryName{padding-top:0}
+        .uploadBtn{
+          width:100%;
+          height:90%;
+          background:rgba(0,0,0,0);
+          filter: alpha(opacity=0);
+          opacity:0;
+          position:absolute;
+          cursor: pointer;
+        }
+        .icontianjia,.icon-add{
+          font-size:24px!important;
+        }
+        .format{
+          font-size: 12px;
+          text-align: center;
+          line-height: 1;
+          margin-top: 4px;
+          color: #ccc;
+        }
+      }
+      .file{
+        width:108px;
+        height:108px;
+        overflow:hidden;
+        position: relative;
+        display: flex;
+        flex-shrink: 0;
+        flex-direction: column;
+        justify-content: center;
+        .img{height:100%;padding-top: 20px;box-sizing: border-box;}
+        img{
+          width:100%;
+          height:auto;
+        }
+        &.singleFile{
+          position: absolute;
+        }
+        .actions{
+          position:absolute;
+          opacity:0;
+          height:0;
+          transition: all 0.3s;
+          bottom:0;
+          width:100%;
+          background:rgba(0,0,0,0.3);
+          display: flex;
+          justify-content: center;
+          color:#fff;
+          line-height: 1;
+          span{
+            transform: scale(0.9);
+          }
+        }
+        &:hover .actions{
+          height:20px;
+          opacity: 1;
+        }
+      }
+      .choseSlogan{
+        font-size: 24px;
+        line-height: 1;
+        width: 24px;
+        color: #1890FF;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+      }
+      .standardSlogan{
+        line-height: 1;
+        width: 36px;
+        height: 36px;
+        position: absolute;
+        top: 20px;
+        left: 0; 
+        &.biaoqianhege{
+          background: url(../../staticComponents/sfujian/hege.png);
+          background-size: 100% 100%;
+        }
+        &.biaoqianbuhege{
+          background: url(../../staticComponents/sfujian/buhege.png);
+          background-size: 100% 100%;
+        }
+        
+      }
+    }
+    &.disabled .uploadzone{
+      cursor: not-allowed;
+      color: #d9d9d9;
+    }
+  }
+}
+.flex-wrap{flex-wrap: wrap}
+.fujian .ivu-form-item-error-tip{margin-top:2px!important;}
+.top-oper{
+  padding:8px 24px;
+  background:#fff;
+  margin-bottom:10px;
+}
+.fujian-wrap{
+  padding:24px 24px;
+  background:#fff;
+  margin-bottom:10px;
+}
+
+.fujian.disabled .item .box .uploadzone{color:#d9d9d9;cursor: not-allowed}
+.fujian .item .box .imgDisabled{
+  cursor: not-allowed;
+  .format{
+    color:#ccc;
+  }
+  .icontianjia{
+    color:#d9d9d9 !important;
+  }
+}
