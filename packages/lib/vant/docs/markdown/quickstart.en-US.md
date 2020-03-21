@@ -53,7 +53,7 @@ npm i babel-plugin-import -D
   ]
 }
 
-// For users who use babel7, that can be configured in babel.config.js
+// For users who use babel7, that can be configured in babel.config.js.bak
 module.exports = {
   plugins: [
     ['import', {

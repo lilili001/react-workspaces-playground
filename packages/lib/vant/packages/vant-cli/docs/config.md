@@ -215,7 +215,7 @@ module.exports = {
 
 ## Babel
 
-通过根目录下的`babel.config.js`文件可以对 Babel 进行配置。
+通过根目录下的`babel.config.js.bak`文件可以对 Babel 进行配置。
 
 ### 默认配置
 

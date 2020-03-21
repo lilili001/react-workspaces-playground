@@ -66,7 +66,7 @@ npm i babel-plugin-import -D
   ]
 }
 
-// 对于使用 babel7 的用户，可以在 babel.config.js 中配置
+// 对于使用 babel7 的用户，可以在 babel.config.js.bak 中配置
 module.exports = {
   plugins: [
     ['import', {

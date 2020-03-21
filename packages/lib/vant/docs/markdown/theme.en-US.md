@@ -28,7 +28,7 @@ First you should import the less source file to your project. you can use babel-
 
 #### Automatically import style
 
-Configure babel plugin in babel.config.js, if you are using babel6, please manually import less file.
+Configure babel plugin in babel.config.js.bak, if you are using babel6, please manually import less file.
 
 ```js
 module.exports = {
