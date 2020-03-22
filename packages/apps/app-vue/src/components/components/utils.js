@@ -35,7 +35,7 @@ function generateTabbarComponent(h, formData = {}, obj, vm) {
                 let component;
                 let func = componentObj[item.type]
                 component = func? func.call(vm, h, formData, item, vm) : null;
-                component = generateColComponent(h,item.props,generateFormItemComponent(h,item,component))
+                component = generateColComponent(h,item.props,generateFormItemComponent(h,item,component,vm))
                 return component
             });
 
@@ -623,17 +623,19 @@ function generateFormItemComponent(h, obj, component) {
             'label-for': obj['label-for'] || obj['labelFor'],
             error: obj.error,
             'show-message': obj['show-message'] || obj['showMessage'],
-        }
+        },
     }, [component])
 }
 
 
 function translateEvents(events = {}, vm) {
-    const result = {}
+    const result = {};
     for (let event in events) {
-        result[event] = events[event].bind(vm)
+        //console.log(event,events[event])
+        if(events[event]){
+            result[event] = events[event].bind(vm)
+        }
     }
-
     return result
 }
 

@@ -1,9 +1,10 @@
 <template>
     <div>
-        <vue-form-maker :options="options" />
+        <vue-form-maker v-if="inited" :options="options" />
     </div>
 </template>
 <script>
+    var orgOptions = {"formData":{},"formItem":[{"type":"group","index":0,"children":[{"type":"tabbar","label":"tabbar","className":"","key":"defaultActiveKey","id":"i18qgngyl8-1584846473756","data-pid":"1x1edlzu0qx1584846472777","props":{"span":24},"children":[{"type":"tabpane","label":"tab1","className":"bg-red","id":"","props":{"span":24},"events":{"onLoad":"this.$http['get']('http://rigel-server.astystore.com/api/posts?page=1').then(res=>{\n                         this.$set(this.options.formData,'base',{custName:'lala'})\n                    })\n                ","onSave":""},"initRequest":{"method":"get","url":"http://rigel-server.astystore.com/api/posts?page=1","params":"1"},"saveRequest":{"method":"","url":"","params":""},"children":[{"type":"input","label":"input","key":"base.custName","className":"","id":"bjainc619a-1584846476254","data-pid":"","props":{"span":8},"events":{"on-change":"","on-blur":""}}]},{"type":"tabpane","label":"tab2","className":"","key":"","id":"","data-pid":"","props":{"span":24},"events":{"onLoad":""},"initRequest":{"method":"","url":"","params":""},"saveRequest":{"method":"","url":"","params":""},"children":[]}]}],"id":"1x1edlzu0qx1584846472777","className":"","key":"","events":{"onLoad":""},"initRequest":{"method":"","url":"","params":""},"saveRequest":{"method":"","url":"","params":""}}],"formProps":{"label-width":60}}
     export default{
         name: "",
         computed:{
@@ -13,6 +14,12 @@
         },
         data(){
             return {
+                inited : false,
+                options:{
+                    formData:{base:{}},//注意 base这层结构是一定要有的 不然无法赋值成功
+                    formItem:[],
+                    formProps:{labelWidth:60}
+                }
                 /*options: {
                     // 表单属性 非必需
                     formProps:{
@@ -354,30 +361,48 @@
                         }
                     }
                 }*/
-                options:{"formData":{},"formItem":[{"type":"group","index":0,"children":[{"type":"input","label":"input","key":"base.custName","className":"","id":"14s2hs4m4tc-1584778577376","data-pid":"1ywqydhqyxq1584778565726","props":{"span":8},"events":{}}],"id":"1ywqydhqyxq1584778565726","className":"","key":"","events":{},"initRequest":{"method":"","url":"","params":""},"saveRequest":{"method":"","url":"","params":""}}],"formProps":{"label-width":60}}
             }
         },
         methods: {
-            findOnLoad(data){
-                const _this = this;
-                _.find(data,(item)=>{
-                    if(item.events && !!item.events['onLoad']){
-                            item.events.onLoad();
-                        if(item.children){
-                            _this.findOnLoad(item.children)
+            restructure(data){
+              return  _.map(data,(item)=>{
+                    if(item.events){
+                        for (var event in item.events){
+                            var aEvent = item.events[event];
+                            item.events[event] = (new Function(aEvent)).bind(this);
                         }
-                        return item;
                     }
+                  if(item.children){
+                      this.restructure(item.children)
+                  }
+                  return item;
                 })
             },
+            findInitFuncs(data){
+                _.map(data,item=>{
+                    if(item.events){
+                        if(item.events['onLoad'] && typeof item.events['onLoad'] == 'function'){
+                            item.events['onLoad']()
+                        }
+                    }
+                    if(item.children){
+                        this.findInitFuncs(item.children)
+                    }
+                    return item;
+                })
+            }
         },
-
         created(){
-
+            const {formItem} = orgOptions;
+            var a = this.restructure(formItem);
+            this.inited = true;
+            console.log(a)
+            this.$set(this.options,'formItem',a);
+            this.findInitFuncs(formItem)
         },
         mounted(){
-            const {formItem} = this.options;
-            //this.findOnLoad(formItem)
+           /* const {onLoad} = this.options.formItem[0]['events'];
+            onLoad(this)*/
         }
     }
 </script>
