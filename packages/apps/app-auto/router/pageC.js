@@ -12,9 +12,7 @@ router.post('/add', function (req, res) {
         if(model){
             res.json(response.err('当前item已存在'))
         }else{
-            var data = new Model({
-                title,content
-            }).save();
+            var data = new Model(req.body).save();
             data ? res.json(response.succ()) : res.json(response.err())
         }
     })
@@ -23,7 +21,7 @@ router.post('/add', function (req, res) {
 /*更新分类*/
 router.post('/update/:id',function (req,res) {
     const {title,content,username} = req.body;
-    var data = Model.findByIdAndUpdate(req.params.id,{title,content}).exec();
+    var data = Model.findByIdAndUpdate(req.params.id,req.body).exec();
     res.json(response.succ())
 });
 
@@ -44,8 +42,8 @@ router.get('/index',function (req,res) {
 });
 
 /*查询分类*/
-router.get('/:id',function (req,res) {
-    var data = Model.findById(req.params.id).exec();
+router.get('/:id',async function (req,res) {
+    var data = await Model.findById(req.params.id).exec();
     res.json(response.succ(data));
 });
 

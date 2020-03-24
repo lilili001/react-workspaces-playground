@@ -5,10 +5,10 @@ import React, {Component} from 'react';
 import { Row,Col, Form, Icon, Input,Select, Button, Checkbox,Divider ,Tabs  } from 'antd';
 import PropTypes from 'prop-types';
 import { connect } from "react-redux";
-import {addClass, canclebubble, guid, hasClass} from '../../../../utils/utils'
+import {addClass, canclebubble, getRes, guid, hasClass} from '../../../../utils/utils'
 const { TabPane } = Tabs;
 const {Option} = Select;
-
+import * as api from '@/services/api'
 @connect((store) => {
     return {
         user:store.userReducer.user,
@@ -27,7 +27,7 @@ class MyComponent extends Component {
             breadCrumb:"" //页面面包屑
         },
         //options 是最终数据 包括初始化数据和配置
-        options:this.props.app.options,
+        options:{},
         coms:[
             {
                 type:'input',
@@ -42,6 +42,11 @@ class MyComponent extends Component {
                 events:{
                     "on-change":'',
                     "on-blur":''
+                },
+                rules:{
+                    required: true,
+                    trigger: 'blur',
+                    message: 'required'
                 }
             },
             {
@@ -57,6 +62,11 @@ class MyComponent extends Component {
                 events:{
                     "on-change":'',
                     "on-blur":''
+                },
+                rules:{
+                    required: true,
+                    trigger: 'blur',
+                    message: 'required'
                 }
             },
             {
@@ -131,8 +141,18 @@ class MyComponent extends Component {
 
     constructor(props, context) {
         super(props, context);
-    }
+        if(props.onRef){//如果父组件传来该方法 则调用方法将子组件this指针传过去
+            props.onRef(this)
+        }
 
+    }
+    componentDidMount(){
+        //初始化
+        var timer = setTimeout(()=>{
+            this.setState({options:this.props.app.options});
+            clearInterval(timer)
+        },1000)
+    }
     addGroup(){
         const {formItem} = this.state.options;
         var index = formItem.length;
@@ -203,12 +223,39 @@ class MyComponent extends Component {
         //插入配置到当前group中
 
         evData['data-pid'] = item.id;
+
+        if(evData['type'] == 'submit'){
+            //提交按钮
+            options['submit'] = evData;
+        }
+
+        if(evData.type=='tabbar'){
+            evData.children.map(item=>{
+                item.id = guid();
+                item['data-pid'] = evData.id;
+                return item
+            })
+        }
+
         item['children'].push(evData);
 
         this.resetClass();
 
         this.setState({options,dragItem:null});
         this.props.dispatch({type:'setData',payload:{ key:'curItem' , value: evData }})
+    }
+    removeItem(index,parent,ev){
+        console.log('remove')
+        var ev = ev ||  window.event;
+        ev.preventDefault();
+        canclebubble(ev);
+
+        var {options} = this.getGroup(ev);
+        parent.children.splice(index,1);
+        this.setState({options});
+        this.props.dispatch({type:'setData',payload:{ key:'curItem' , value: null }})
+        this.resetClass();
+
     }
     resetClass(defaultClassName=""){
         const {options:{formItem}} = this.state;
@@ -223,7 +270,9 @@ class MyComponent extends Component {
         }
         reset(formItem);
     }
+    setSubmitBtn(){
 
+    }
     getGroup(ev,cb){
         const {target} = ev;
         let index = target.getAttribute('data-index');
@@ -231,6 +280,7 @@ class MyComponent extends Component {
         return {options,index}
     }
     fnClick(item ,ev){
+        console.log('click');
         this.props.dispatch({type:'setData',payload:{ key:'curItem' , value: null }})
         var ev = ev || window.event;
         const {options} = this.state;
@@ -244,7 +294,24 @@ class MyComponent extends Component {
             this.props.dispatch({type:'setData',payload:{ key:'curItem' , value: item }})
         })
     }
+    fnSubmit(ev){
+        var curItem = {
+            hasSubmitButton:0,//是否有提交按钮
+            text: '提交',
+            props: {
+                type: 'primary'
+            },
+            success(formData) {
+                alert(JSON.stringify(formData))
+            },
+            fail(formData) {
+                alert('验证失败')
+            }
+        }
+        this.props.dispatch({type:'setData',payload:{ key:'curItem' , value: curItem }});
+    }
     render() {
+        const {options} = this.state;
         const {formItem} = this.state.options;
 
         const getCom = (item,index)=>{
@@ -260,11 +327,12 @@ class MyComponent extends Component {
                                onDragLeave={this.dragleave.bind(this,item)}
                                onDrop={this.drop.bind(this,item)}
                     >
-                        {item.children.map((child,index)=>
+                        {item.children.map((child,idx1)=>
                             <Col className={'col '+ child.className }
                                  onClick={this.fnClick.bind(this,child)}
                                  span={child.props['span'] || 24}
-                                 key={index}>{getCom(child,index)}
+                                 key={idx1}>{getCom(child,idx1)}
+                                 <span className="iconfont icon-delete" onClick={this.removeItem.bind(this,idx1,item)}></span>
                             </Col>
                         )}
                     </Row>
@@ -287,29 +355,39 @@ class MyComponent extends Component {
                         {item.children.map((tabpane,index)=> <TabPane tab={tabpane.label} key={index}>{getCom(tabpane,index)}</TabPane> )}
                     </Tabs>
                     break;
+                case 'submit': case 'button':
+                    com = <Button type="primary">{item.text}</Button>
+                    break
             }
+
             return com
         }
 
         const layout = {
-            labelCol: { span: 8 },
+            labelCol: { span: 6 },
             wrapperCol: { span: 16 },
         };
         return (
                 <Form {...layout} name="basic">
                     <div className="flex align-start">
                         <ul>
+                            <li className="color-gray">拖拽区</li>
                             {this.state.coms.map((menuItem,index)=>
                                 <li
                                     onDragStart={this.liDragStart.bind(this,menuItem)}
-                                    draggable key={index}>{menuItem.label}
+                                    draggable key={index}>
+                                    {menuItem.label|| menuItem.text}
                                 </li>)}
+                                <Divider></Divider>
+                                <li className="color-gray">点击区</li>
+                                <li onClick={this.fnSubmit.bind(this)}>提交</li>
                         </ul>
 
                         <div id="div1">
                             <Button size="small" className="pull-right" onClick={this.addGroup.bind(this)}>新建分组</Button>
-                            {formItem.map((item,index)=> <div key={index} className="group-container">{getCom(item,index)}</div> )}
+                            {formItem && formItem.map((item,index)=> <div key={index} className="group-container">{getCom(item,index)}</div> )}
                         </div>
+
                     </div>
                 </Form>
         );

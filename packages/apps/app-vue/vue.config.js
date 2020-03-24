@@ -5,14 +5,22 @@ module.exports = {
   lintOnSave: false,
   devServer: {
     proxy: {
-      '/api': {
+     /* '/api': {
         ws: false,
         target: 'http://rigel-server.astystore.com',
         changeOrigin: true,
         pathRewrite: {
           '^/api': '/api'
         }
-      }
+      },*/
+      '/': {
+          ws: false,
+          target: 'http://localhost:3000',
+          changeOrigin: true,
+          pathRewrite: {
+              '^/': '/'
+          }
+      },
     },
     port: 8090
   },

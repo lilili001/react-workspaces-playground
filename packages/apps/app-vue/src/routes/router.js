@@ -68,7 +68,7 @@ const customerRoutes = [
     component: () => import('@/views/InitialPageBox.vue'),
     meta: { brand: [{ label: '新提报中心' }, { label: '进件管理', url: '/applySteps' }, { label: '去完成' }] }
   },
-  { path: '/test', title: 'Test', name: 'test', component: () => import('@/views/Test.vue') },
+  { path: '/test/:id', title: 'Test', name: 'test', component: () => import('@/views/Test.vue') },
 ]
 
 const businessComs = [

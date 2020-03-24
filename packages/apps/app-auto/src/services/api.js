@@ -16,10 +16,17 @@ export const catAdd = (params) => axios.post(`/cat/add`,params);
 export const catUpdate = (id,params) => axios.post(`/cat/update/${id}`,params);
 export const catDelete = (id) => axios.post(`/cat/delete/${id}`);
 
+/*页面管理*/
+export const pageIndex = () => axios.get(`/page/index`);
+export const pageAdd = (params) => axios.post(`/page/add/`,params);
+export const pageUpdate = (id) => axios.post(`/page/update/${id}`);
+export const pageDelete = (id) => axios.post(`/page/delete/${id}`);
+export const pageDetail = (id) => axios.get(`/page/detail/${id}`);
+
 /*页面配置*/
 export const pageCIndex = () => axios.get(`/pageC/index`);
-export const pageCAdd = () => axios.post(`/pageC/add`);
-export const pageCUpdate = (id) => axios.post(`/pageC/update/${id}`);
+export const pageCAdd = (params) => axios.post(`/pageC/add/`,params);
+export const pageCUpdate = (id,params) => axios.post(`/pageC/update/${id}`,params);
 export const pageCDelete = (id) => axios.post(`/pageC/delete/${id}`);
-export const pageCDetail = (id) => axios.post(`/pageC/detail/${id}`);
+export const pageCDetail = (id) => axios.get(`/pageC/${id}`);
 
